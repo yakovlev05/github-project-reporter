@@ -1,4 +1,4 @@
-package ru.yakovlev05.infr.dto;
+package ru.yakovlev05.infr.newissuesreporter.dto;
 
 import java.time.Instant;
 

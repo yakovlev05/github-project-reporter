@@ -17,6 +17,9 @@
         <lombok.version>1.18.42</lombok.version>
         <slf4j.version>2.0.17</slf4j.version>
         <logback.version>1.5.23</logback.version>
+        <hibernate.version>7.2.0.Final</hibernate.version>
+        <postgresql.version>42.7.8</postgresql.version>
+        <jpa.version>3.2.0</jpa.version>
     </properties>
 
     <dependencies>
@@ -49,6 +52,30 @@
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-scan-jandex</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>${jpa.version}</version>
         </dependency>
     </dependencies>
 

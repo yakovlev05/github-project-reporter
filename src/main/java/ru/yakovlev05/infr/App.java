@@ -13,7 +13,12 @@ public class App {
 
     public void run() {
         log.info("Application starting...");
-        new AnnotationConfigApplicationContext(clazz);
+        try {
+            new AnnotationConfigApplicationContext(clazz);
+        } catch (Exception e) {
+            log.error("Application failed to start", e);
+            System.exit(1);
+        }
         log.info("Application started");
         lock();
     }
