@@ -29,10 +29,11 @@ public class NewIssuesReporter {
     private void init() {
         scheduler.scheduleWithFixedDelay(
                 service::reportNewIssues,
-                0,
+                1,
                 envNewIssuesReporterTaskDelaySupplier.get(),
                 TimeUnit.SECONDS
         );
+
     }
 
 }

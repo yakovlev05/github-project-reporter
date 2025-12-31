@@ -1,10 +1,10 @@
 package ru.yakovlev05.infr;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+@Slf4j
 public class App {
-
-
     private final Class<?> clazz;
 
     public App(Class<?> clazz) {
@@ -12,13 +12,17 @@ public class App {
     }
 
     public void run() {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(clazz);
+        log.info("Application starting...");
+        new AnnotationConfigApplicationContext(clazz);
+        log.info("Application started");
+        lock();
+    }
 
-        //todo: логирование
+    private void lock() {
         try {
             Thread.currentThread().join();
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            Thread.currentThread().interrupt();
         }
     }
 }
