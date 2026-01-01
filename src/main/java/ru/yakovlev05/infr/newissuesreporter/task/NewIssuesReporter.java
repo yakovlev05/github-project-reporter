@@ -2,6 +2,7 @@ package ru.yakovlev05.infr.newissuesreporter.task;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import org.springframework.stereotype.Component;
 import ru.yakovlev05.infr.newissuesreporter.dao.RepositoryDao;
 import ru.yakovlev05.infr.newissuesreporter.entity.Repository;
@@ -37,7 +38,8 @@ public class NewIssuesReporter {
 
     private void init() {
         List<Repository> toProcess = repositoryDao.findAllActiveRepositories();
-        this.scheduler = Executors.newScheduledThreadPool(toProcess.size());
+        this.scheduler = Executors.newScheduledThreadPool(toProcess.size(),
+                new CustomizableThreadFactory("new-issues-reporter-thread-"));
 
         toProcess.forEach(repository -> runInThread(runWithHandleException(repository)));
 
