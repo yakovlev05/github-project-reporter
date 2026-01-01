@@ -1,7 +1,5 @@
 package ru.yakovlev05.infr.newissuesreporter.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.Instant;
 
 public record IssueDto(

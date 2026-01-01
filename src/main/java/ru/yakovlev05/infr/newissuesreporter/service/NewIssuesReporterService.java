@@ -84,6 +84,10 @@ public class NewIssuesReporterService {
                 .filter(issue -> issue.updatedAt().isAfter(timeWindow))
                 .filter(issue -> issue.assignees().totalCount() != 0)
                 .filter(issue -> !alreadyProcessed.contains(issue.number()))
+                .filter(issue -> !(
+                        issue.author().login().equals(issue.assignees().nodes().getFirst().login())
+                        && issue.assignees().totalCount() == 1
+                ))
                 .toList();
     }
 
