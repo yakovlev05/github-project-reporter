@@ -14,13 +14,28 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <spring.framework.version>7.0.2</spring.framework.version>
+        <spring.framework.graphql.version>2.0.1</spring.framework.graphql.version>
         <lombok.version>1.18.42</lombok.version>
         <slf4j.version>2.0.17</slf4j.version>
         <logback.version>1.5.23</logback.version>
         <hibernate.version>7.2.0.Final</hibernate.version>
         <postgresql.version>42.7.8</postgresql.version>
         <jpa.version>3.2.0</jpa.version>
+        <jackson.verion>3.0.3</jackson.verion>
+        <telegrambots.version>9.2.0</telegrambots.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>tools.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${jackson.verion}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -33,6 +48,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${spring.framework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.graphql</groupId>
+            <artifactId>spring-graphql</artifactId>
+            <version>${spring.framework.graphql.version}</version>
         </dependency>
 
         <dependency>
@@ -76,6 +97,17 @@
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>${jpa.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>tools.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-client</artifactId>
+            <version>${telegrambots.version}</version>
         </dependency>
     </dependencies>
 
