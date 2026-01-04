@@ -6,6 +6,7 @@ import org.hibernate.cfg.JdbcSettings;
 import org.hibernate.tool.schema.Action;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import ru.yakovlev05.infr.config.JdbcPropsConfig.JdbcProps;
 import ru.yakovlev05.infr.newissuesreporter.entity.Issue;
 import ru.yakovlev05.infr.newissuesreporter.entity.Repository;
@@ -13,13 +14,14 @@ import ru.yakovlev05.infr.newissuesreporter.entity.Repository;
 @Configuration
 public class JpaConfig {
 
+    @DependsOn("flywayMigration")
     @Bean
     public EntityManagerFactory entityManagerFactory(JdbcProps jdbcProps, Boolean isProductionMode) {
         PersistenceConfiguration configuration = new PersistenceConfiguration("MainContext")
                 .property(PersistenceConfiguration.JDBC_URL, jdbcProps.url())
                 .property(PersistenceConfiguration.JDBC_USER, jdbcProps.user())
                 .property(PersistenceConfiguration.JDBC_PASSWORD, jdbcProps.password())
-                .property(PersistenceConfiguration.SCHEMAGEN_DATABASE_ACTION, Action.UPDATE);
+                .property(PersistenceConfiguration.SCHEMAGEN_DATABASE_ACTION, Action.VALIDATE);
 
         if (!isProductionMode) {
             configuration
