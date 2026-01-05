@@ -11,7 +11,7 @@ import ru.yakovlev05.infr.config.JdbcPropsConfig.JdbcProps;
 import ru.yakovlev05.infr.newissuesreporter.entity.Issue;
 import ru.yakovlev05.infr.newissuesreporter.entity.Repository;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class JpaConfig {
 
     @DependsOn("flywayMigration")

@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class NewIssuesReporterConfig {
 
     @Bean

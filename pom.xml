@@ -13,6 +13,10 @@
         <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <native.image.plugin.version>0.11.3</native.image.plugin.version>
+        <maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version>
+        <maven.jar.plugin>3.5.0</maven.jar.plugin>
+
         <spring.framework.version>7.0.2</spring.framework.version>
         <spring.framework.graphql.version>2.0.1</spring.framework.graphql.version>
         <lombok.version>1.18.42</lombok.version>
@@ -21,7 +25,7 @@
         <hibernate.version>7.2.0.Final</hibernate.version>
         <postgresql.version>42.7.8</postgresql.version>
         <jpa.version>3.2.0</jpa.version>
-        <jackson.verion>3.0.3</jackson.verion>
+        <jackson.version>3.0.3</jackson.version>
         <telegrambots.version>9.2.0</telegrambots.version>
         <flyway.version>11.20.0</flyway.version>
     </properties>
@@ -31,7 +35,7 @@
             <dependency>
                 <groupId>tools.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>${jackson.verion}</version>
+                <version>${jackson.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -131,7 +135,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.14.1</version>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
@@ -140,9 +144,62 @@
                             <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                    <fork>
+                        true
+                    </fork>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven.jar.plugin}</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>ru.yakovlev05.infr.Main</mainClass>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!--Native сборка-->
+        <profile>
+            <id>native</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <version>${native.image.plugin.version}</version>
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <id>build-native</id>
+                                <goals>
+                                    <goal>compile-no-fork</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <buildArgs combine.children="append">
+                                <buildArg>-march=x86-64-v2</buildArg>
+                                <buildArg>--enable-sbom=false</buildArg>
+
+                                <!--Не рабочий вариант, лучше метадату собирать-->
+                                <!--<buildArg>-H:Preserve=package=org.springframework.*</buildArg>-->
+                                <!--<buildArg>-H:+UnlockExperimentalVMOptions</buildArg>-->
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

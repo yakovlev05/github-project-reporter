@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 @Slf4j
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class EnvConfig {
 
     @Bean
