@@ -8,4 +8,3 @@ public class Main {
         new App(Main.class).run();
     }
 }
-
