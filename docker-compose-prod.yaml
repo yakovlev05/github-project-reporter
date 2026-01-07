@@ -23,7 +23,7 @@ services:
       - common
 
   app:
-    image: ghcr.io/yakovlev05/github-project-reporter
+    image: ghcr.io/yakovlev05/github-project-reporter:main
     restart: unless-stopped
     environment:
       - GITHUB_TOKEN=${GITHUB_TOKEN}
