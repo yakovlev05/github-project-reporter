@@ -1,3 +1,5 @@
+https://github.com/user-attachments/assets/d0f268be-7a9c-4e8b-a482-8d16f576a064
+
 # Что это
 
 Простой репортер о новых issue в репозитории. Присылает уведомление в Telegram, если создан новый issue.
