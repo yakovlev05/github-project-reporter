@@ -20,3 +20,18 @@ services:
       - postgres:/var/lib/postgresql
     networks:
       - common
+
+  app:
+    build:
+      context: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - JDBC_URL=jdbc:postgresql://postgres:5432/github-project-reporter
+      - APP_IS_PRODUCTION=true
+    networks:
+      - common
+    depends_on:
+      postgres:
+        condition: service_started

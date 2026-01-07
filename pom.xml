@@ -15,7 +15,8 @@
 
         <native.image.plugin.version>0.11.3</native.image.plugin.version>
         <maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version>
-        <maven.jar.plugin>3.5.0</maven.jar.plugin>
+        <maven.jar.plugin.version>3.5.0</maven.jar.plugin.version>
+        <maven.shade.plugin.version>3.6.1</maven.shade.plugin.version>
 
         <spring.framework.version>7.0.2</spring.framework.version>
         <spring.framework.graphql.version>2.0.1</spring.framework.graphql.version>
@@ -150,18 +151,28 @@
                 </configuration>
             </plugin>
 
+            <!--Fat Jar-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${maven.jar.plugin}</version>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>${maven.shade.plugin.version}</version>
                 <configuration>
-                    <archive>
-                        <manifest>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                             <mainClass>ru.yakovlev05.infr.Main</mainClass>
-                            <addClasspath>true</addClasspath>
-                        </manifest>
-                    </archive>
+                        </transformer>
+                    </transformers>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -172,6 +183,21 @@
             <id>native</id>
             <build>
                 <plugins>
+                    <!--Нужен для native сборки-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>${maven.jar.plugin.version}</version>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>ru.yakovlev05.infr.Main</mainClass>
+                                    <addClasspath>true</addClasspath>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </plugin>
+
                     <plugin>
                         <groupId>org.graalvm.buildtools</groupId>
                         <artifactId>native-maven-plugin</artifactId>
