@@ -5,7 +5,7 @@ RUN --mount=type=cache,target=/root/.m2 mvn dependency:go-offline -B
 COPY src ./src
 RUN --mount=type=cache,target=/root/.m2 mvn clean package -DskipTests
 
-FROM eclipse-temurin:25-jre-alpine
+FROM bellsoft/liberica-runtime-container:jre-25-slim-musl
 WORKDIR /app
 COPY --from=build /app/target/github-project-reporter-*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
